@@ -23,6 +23,7 @@ export async function POST(req) {
     const description = formData.get('description') || null;
     const price = formData.get('price');
     const category = formData.get('category');
+    const subCategory = formData.get('subCategory');
     const stock = formData.get('stock') || 0;
     const imageFile = formData.get('image');
 
@@ -53,6 +54,7 @@ export async function POST(req) {
         description,
         price: Number(price),
         category,
+        subCategory,
         stock: Number(stock),
         imageUrl,
         createdBy: Number(session.user.id),

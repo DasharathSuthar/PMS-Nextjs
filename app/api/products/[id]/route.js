@@ -50,7 +50,8 @@ export async function PUT(req, { params }) {
     const { id } = await params;
     const body = await req.json();
 
-    const { name, category, description, price, stock, imageUrl } = body;
+    const { name, category, subCategory, description, price, stock, imageUrl } =
+      body;
 
     // validate fields (basic example, you can extend)
     if (!name || !category || !price) {
@@ -65,6 +66,7 @@ export async function PUT(req, { params }) {
       .set({
         name,
         category,
+        subCategory,
         description,
         price,
         stock,

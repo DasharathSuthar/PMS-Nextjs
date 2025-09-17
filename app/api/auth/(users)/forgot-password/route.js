@@ -25,8 +25,8 @@ export async function POST(req) {
       return apiResponse({
         success: false,
         message: check.message,
-        status: 400
-      })
+        status: 400,
+      });
     }
 
     const [user] = await db.select().from(users).where(eq(users.email, email));

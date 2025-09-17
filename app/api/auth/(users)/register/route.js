@@ -18,7 +18,7 @@ export async function POST(req) {
     }
 
     let check = validateEmail(email);
-    
+
     if (!check.valid) {
       return apiResponse({
         success: false,

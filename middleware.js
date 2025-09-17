@@ -13,7 +13,7 @@ export async function middleware(req) {
     '/forgot-password',
     '/reset-password',
     '/products', // public but restricted for admins
-    '/contact',  // fully public now
+    '/contact', // fully public now
   ];
   const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
 
@@ -67,7 +67,7 @@ export const config = {
     '/add-product',
     '/all-products',
     '/products/:path*', // public but admin-blocked
-    '/contact/:path*',  // fully public
+    '/contact/:path*', // fully public
     '/profile', // requires login (both admin & user allowed)
   ],
 };

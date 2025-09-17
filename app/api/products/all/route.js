@@ -1,23 +1,13 @@
 import { db } from '@/lib/db';
 import { products } from '@/drizzle/schema';
-import { like } from 'drizzle-orm';
 import { apiResponse } from '@/util/response';
 
-export async function GET(req) {
+export async function GET() {
   try {
-    const { search } = Object.fromEntries(new URL(req.url).searchParams);
-
-    let query = db.select().from(products);
-
-    if (search) {
-      query = query.where(
-        like(products.name, `%${search}%`).or(
-          like(products.category, `%${search}%`)
-        )
-      );
-    }
-
-    const allProducts = await query;
+    const allProducts = await db
+      .select()
+      .from(products)
+      .orderBy(products.category);
 
     if (!allProducts.length) {
       return apiResponse({

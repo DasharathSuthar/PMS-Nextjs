@@ -5,7 +5,6 @@ import { users } from '@/drizzle/schema';
 import { db } from '@/lib/db';
 import { eq, sql } from 'drizzle-orm';
 
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -80,10 +79,13 @@ export const authOptions = {
     async signOut({ token }) {
       if (!token?.id) return;
 
-      await db.update(users).set({
-        isOnline: false,
-        lastSeen: new Date(),
-      }).where(eq(users.id, token.id));
+      await db
+        .update(users)
+        .set({
+          isOnline: false,
+          lastSeen: new Date(),
+        })
+        .where(eq(users.id, token.id));
     },
   },
   pages: {

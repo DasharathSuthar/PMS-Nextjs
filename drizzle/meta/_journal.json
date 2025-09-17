@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1757656211707,
-      "tag": "0000_dry_avengers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1757684779393,
-      "tag": "0001_damp_wallow",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1757748315253,
-      "tag": "0002_mature_titanium_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1757830094109,
-      "tag": "0003_famous_sprite",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1757921292791,
-      "tag": "0004_lumpy_yellow_claw",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1758017469506,
-      "tag": "0005_fancy_serpent_society",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1758017804326,
-      "tag": "0006_eminent_nextwave",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1758017859760,
-      "tag": "0007_overrated_wild_pack",
+      "when": 1758083760890,
+      "tag": "0000_omniscient_doctor_spectrum",
       "breakpoints": true
     }
   ]

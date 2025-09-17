@@ -48,7 +48,7 @@ const Navbar = () => {
     if (session?.user?.id) {
       fetchProfile();
     }
-  }, []);
+  }, [session]);
 
   // Prevent hydration mismatch
   if (status === 'loading') {

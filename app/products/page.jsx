@@ -40,9 +40,11 @@ const ProductsPage = () => {
   // Filter products locally
   const filteredProducts = useMemo(() => {
     if (!search.trim()) return products;
-    return products.filter(product =>
-      product.name.toLowerCase().includes(search.toLowerCase()) ||
-      product.category?.toLowerCase().includes(search.toLowerCase())
+    return products.filter(
+      product =>
+        product.name.toLowerCase().includes(search.toLowerCase()) ||
+        product.category?.toLowerCase().includes(search.toLowerCase()) ||
+        product.subCategory?.toLowerCase().includes(search.toLocaleLowerCase())
     );
   }, [products, search]);
 
@@ -107,6 +109,9 @@ const ProductsPage = () => {
                     <p className="text-[10px] sm:text-xs text-gray-500">
                       {product.category}
                     </p>
+                    <p className="text-[10px] sm:text-xs text-gray-500">
+                      {product.subCategory}
+                    </p>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-1 p-0">
                     {product.imageUrl && (
@@ -130,7 +135,10 @@ const ProductsPage = () => {
                   </CardContent>
                   <CardFooter className="p-1 mt-1">
                     <Link href={`/products/${product.id}`} className="w-full">
-                      <Button size="sm" className="w-full text-[11px] sm:text-xs">
+                      <Button
+                        size="sm"
+                        className="w-full text-[11px] sm:text-xs"
+                      >
                         View
                       </Button>
                     </Link>
@@ -149,7 +157,11 @@ const ProductsPage = () => {
                     <PaginationPrevious
                       onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                       aria-disabled={currentPage === 1}
-                      className={currentPage === 1 ? 'opacity-50 pointer-events-none' : ''}
+                      className={
+                        currentPage === 1
+                          ? 'opacity-50 pointer-events-none'
+                          : ''
+                      }
                     />
                   </PaginationItem>
 
@@ -166,9 +178,15 @@ const ProductsPage = () => {
 
                   <PaginationItem>
                     <PaginationNext
-                      onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                      onClick={() =>
+                        setCurrentPage(p => Math.min(p + 1, totalPages))
+                      }
                       aria-disabled={currentPage === totalPages}
-                      className={currentPage === totalPages ? 'opacity-50 pointer-events-none' : ''}
+                      className={
+                        currentPage === totalPages
+                          ? 'opacity-50 pointer-events-none'
+                          : ''
+                      }
                     />
                   </PaginationItem>
                 </PaginationContent>

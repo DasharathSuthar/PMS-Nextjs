@@ -10,7 +10,7 @@ export const useProductStore = create(set => ({
   fetchProducts: async () => {
     set({ isLoading: true, error: null });
     try {
-      const { data } = await axios.get('/api/products/all'); // removed ?search
+      const { data } = await axios.get('/api/products/all');
       if (!data.success) {
         throw new Error(data.message || 'Failed to fetch products');
       }
@@ -24,7 +24,6 @@ export const useProductStore = create(set => ({
       throw err;
     }
   },
-
 
   // add new product
   addProduct: async productData => {

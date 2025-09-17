@@ -33,8 +33,8 @@ export async function PUT(req) {
       return apiResponse({
         success: false,
         message: check.message,
-        status: 400
-      })
+        status: 400,
+      });
     }
 
     const [user] = await db

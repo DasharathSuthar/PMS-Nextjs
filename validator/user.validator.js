@@ -8,16 +8,19 @@ export function validatePassword(password) {
     };
   }
 
-  if (!validator.isStrongPassword(password, {
-    minLength: 6, 
-    minLowercase: 0, 
-    minUppercase: 0, 
-    minNumbers: 2,
-    minSymbols: 1,
-  })) {
+  if (
+    !validator.isStrongPassword(password, {
+      minLength: 6,
+      minLowercase: 0,
+      minUppercase: 0,
+      minNumbers: 2,
+      minSymbols: 1,
+    })
+  ) {
     return {
       valid: false,
-      message: 'Password must be at least 6 characters long and contain at least one special character and two numbers.',
+      message:
+        'Password must be at least 6 characters long and contain at least one special character and two numbers.',
     };
   }
 

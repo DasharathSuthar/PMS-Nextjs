@@ -40,7 +40,9 @@ export default function ContactPage() {
       const data = await res.json();
 
       if (data.success) {
-        setResponseMessage('✅ Thank you for contacting us! We’ll get back soon.');
+        setResponseMessage(
+          '✅ Thank you for contacting us! We’ll get back soon.'
+        );
         setIsError(false);
         setFormData({ name: '', email: '', message: '' });
       } else {
@@ -63,9 +65,10 @@ export default function ContactPage() {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-2 text-center">Contact Us</h1>
         <p className="text-gray-600 text-center mb-6">
-          We’d love to hear from you! Fill out the form below and our team will get back to you
-          within 24–48 hours. You can also reach us at{" "}
-          <span className="font-medium text-blue-600">support@example.com</span>.
+          We’d love to hear from you! Fill out the form below and our team will
+          get back to you within 24–48 hours. You can also reach us at{' '}
+          <span className="font-medium text-blue-600">support@example.com</span>
+          .
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

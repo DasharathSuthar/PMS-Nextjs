@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { categories } from '@/data';
 
 const AddProductPage = () => {
   const { addProduct, isLoading } = useProductStore();
@@ -21,6 +22,7 @@ const AddProductPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     category: '',
+    subCategory: '',
     description: '',
     price: '',
     stock: '',
@@ -29,34 +31,14 @@ const AddProductPage = () => {
 
   const [imagePreview, setImagePreview] = useState(null);
 
-  const categories = [
-    "Fashion & Apparel",
-    "Electronics & Gadgets",
-    "Home & Living",
-    "Beauty & Personal Care",
-    "Health & Wellness",
-    "Groceries & Essentials",
-    "Books & Stationery",
-    "Sports & Outdoors",
-    "Toys & Games",
-    "Automotive",
-    "Jewelry & Luxury",
-    "Pets Supplies",
-    "Other"
-  ];
-
-
   const handleChange = e => {
     const { name, value, files } = e.target;
     if (name === 'image') {
       const file = files[0];
       setFormData({ ...formData, image: file });
-      if (file) setImagePreview(URL.createObjectURL(file));
-      else setImagePreview(null);
+      setImagePreview(file ? URL.createObjectURL(file) : null);
     } else if (name === 'price' || name === 'stock') {
-      // Ensure price/stock cannot be negative
-      const numericValue = Math.max(0, Number(value));
-      setFormData({ ...formData, [name]: numericValue });
+      setFormData({ ...formData, [name]: Math.max(0, Number(value)) });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -65,12 +47,7 @@ const AddProductPage = () => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (
-      !formData.name ||
-      !formData.category ||
-      !formData.price ||
-      !formData.stock 
-    ) {
+    if (!formData.name || !formData.category || !formData.price || !formData.stock) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -81,6 +58,7 @@ const AddProductPage = () => {
       setFormData({
         name: '',
         category: '',
+        subCategory: '',
         description: '',
         price: '',
         stock: '',
@@ -102,99 +80,123 @@ const AddProductPage = () => {
           Add New Product
         </h1>
 
-        {/* Instructions */}
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded text-sm text-gray-700">
-          <p>
-            <strong>Instructions:</strong>
-          </p>
-          <ul className="list-disc list-inside space-y-1">
-            <li>Provide a clear and descriptive product name.</li>
-            <li>Select the appropriate category for this product.</li>
-            <li>Write a short description to highlight product features.</li>
-            <li>Price and stock cannot be negative.</li>
-            <li>You can upload a product image (optional).</li>
-          </ul>
+        {/* Name */}
+        <div>
+          <Label htmlFor="name">Name *</Label>
+          <Input
+            id="name"
+            name="name"
+            placeholder="Product Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         </div>
 
-        {/* Name */}
-        <Label htmlFor="name">Product Name *</Label>
-        <Input
-          id="name"
-          placeholder="Enter product name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-
         {/* Category */}
-        <Label htmlFor="category">Category *</Label>
-        <Select
-          value={formData.category}
-          onValueChange={val => setFormData({ ...formData, category: val })}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select a category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories.map(cat => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div>
+          <Label htmlFor="category">Category *</Label>
+          <Select
+            value={formData.category}
+            onValueChange={value =>
+              setFormData({ ...formData, category: value, subCategory: '' })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(categories).map(cat => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Subcategory */}
+        {formData.category && (
+          <div>
+            <Label htmlFor="subCategory">Subcategory</Label>
+            <Select
+              value={formData.subCategory}
+              onValueChange={value =>
+                setFormData({ ...formData, subCategory: value })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Subcategory" />
+              </SelectTrigger>
+              <SelectContent>
+                {(categories[formData.category] || []).map(subCat => (
+                  <SelectItem key={subCat} value={subCat}>
+                    {subCat}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* Description */}
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          id="description"
-          placeholder="Enter product description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+        <div>
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Product description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
 
         {/* Price */}
-        <Label htmlFor="price">Price (₹) *</Label>
-        <Input
-          type="number"
-          id="price"
-          placeholder="Enter price"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          min={0}
-          required
-        />
+        <div>
+          <Label htmlFor="price">Price (₹) *</Label>
+          <Input
+            id="price"
+            name="price"
+            type="number"
+            placeholder="Price"
+            min={0}
+            value={formData.price}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
         {/* Stock */}
-        <Label htmlFor="stock">Stock *</Label>
-        <Input
-          type="number"
-          id="stock"
-          placeholder="Enter stock quantity"
-          name="stock"
-          value={formData.stock}
-          onChange={handleChange}
-          min={0}
-          required
-        />
+        <div>
+          <Label htmlFor="stock">Stock *</Label>
+          <Input
+            id="stock"
+            name="stock"
+            type="number"
+            placeholder="Stock quantity"
+            min={0}
+            value={formData.stock}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
         {/* Image */}
-        <Label htmlFor="image">Product Image</Label>
-        <Input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
+        <div>
+          <Label htmlFor="image">Product Image</Label>
+          <Input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+          />
+        </div>
 
         {/* Image Preview */}
         {imagePreview && (
-          <div className="mt-2">
-            <p className="text-sm text-gray-500 mb-1">Image Preview:</p>
+          <div>
+            <Label>Image Preview</Label>
             <img
               src={imagePreview}
               alt="Preview"
